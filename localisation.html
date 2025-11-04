@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Localiser mon Portefeuille | SmartFold</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { primary: '#1D4ED8', accent: '#10B981' } } }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    #map { height: 80vh; width: 100%; border-radius: 0.5rem; }
+    #ping {
+      position: absolute;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(16,185,129,0.3);
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.7); opacity: 0.8; }
+      70% { transform: scale(1.5); opacity: 0; }
+      100% { transform: scale(0.7); opacity: 0.8; }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+  <nav class="bg-white shadow-md fixed w-full z-10">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <h1 class="text-2xl font-bold text-primary">SmartFold</h1>
+      <a href="index.html" class="text-gray-600 hover:text-primary">Retour</a>
+    </div>
+  </nav>
+
+  <main class="pt-20 px-4 sm:px-6 lg:px-8">
+    <h2 class="text-3xl font-extrabold text-gray-900 text-center mb-4">Localiser mon Portefeuille</h2>
+    <p class="text-center text-gray-600 mb-6">Visualisez la position de votre SmartFold en temps réel et faites-le sonner.</p>
+
+    <div id="map" class="shadow-md"></div>
+
+    <div class="flex justify-center space-x-4 mt-8">
+      <button id="play-sound" class="bg-accent hover:bg-green-600 text-white px-6 py-3 rounded-md font-medium shadow-lg transition">🔊 Émettre un son</button>
+      <a href="#buy" class="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium shadow-lg transition">🛒 Commander – 49,99 €</a>
+    </div>
+
+    <!-- Section Achat -->
+    <section id="buy" class="mt-20 text-center">
+      <h3 class="text-2xl font-bold text-gray-900">Commandez Votre SmartFold Aujourd’hui</h3>
+      <p class="text-gray-600 mt-2 mb-6">Protégez vos cartes, ne perdez plus jamais votre portefeuille.</p>
+      <button class="bg-primary text-white px-10 py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 shadow-lg transition">Acheter – 49,99 €</button>
+      <p class="text-sm text-gray-500 mt-3">Livraison gratuite en 48 h • Garantie 2 ans</p>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white mt-16 py-8 text-center">
+    <p>&copy; 2025 SmartFold — Tous droits réservés.</p>
+  </footer>
+
+  <!-- Audio -->
+  <audio id="beep" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f507a7b1a1.mp3"></audio>
+
+  <script>
+    let map, userMarker, walletMarker;
+
+    function initMap() {
+      map = L.map('map').setView([48.8566, 2.3522], 13);  // Default to Paris if no geolocation
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      }).addTo(map);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          const userPos = [pos.coords.latitude, pos.coords.longitude];
+          const walletPos = [
+            userPos[0] + (Math.random() - 0.5) * 0.002,
+            userPos[1] + (Math.random() - 0.5) * 0.002
+          ];
+
+          map.setView(userPos, 15);
+
+          userMarker = L.circleMarker(userPos, {
+            radius: 6,
+            color: '#2563EB',
+            fillColor: '#2563EB',
+            fillOpacity: 1
+          }).addTo(map).bindPopup('Votre position');
+
+          walletMarker = L.marker(walletPos, {
+            icon: L.icon({
+              iconUrl: 'https://cdn-icons-png.flaticon.com/512/869/869636.png',
+              iconSize: [32, 32],
+              iconAnchor: [16, 32]
+            })
+          }).addTo(map).bindPopup('SmartFold');
+        }, () => {
+          // Fallback if geolocation fails
+          alert("Impossible d'obtenir la position. Utilisation d'une position par défaut.");
+        });
+      } else {
+        alert("Géolocalisation non supportée sur ce navigateur. Utilisation d'une position par défaut.");
+      }
+    }
+
+    document.getElementById("play-sound").addEventListener("click", () => {
+      document.getElementById("beep").play();
+      if (walletMarker) {
+        walletMarker.bounce({ duration: 2500, height: 100 });
+      }
+    });
+
+    window.onload = initMap;
+  </script>
+</body>
+</html>
