@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merci ! - SmartFold</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="script.js">
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#1D4ED8', accent: '#10B981' } } } };
+  </script>
+  <style> body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom, #0f172a, #020617); color: #f1f5f9; } .glass-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 1rem; backdrop-filter: blur(10px); } </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+  <div class="glass-card p-8 text-center max-w-md w-full">
+    <h1 class="text-4xl font-bold text-accent mb-4">Merci ! 🎉</h1>
+    <p class="text-slate-300 mb-6">Votre commande SmartFold est confirmée. Livraison en 48h.</p>
+    <a href="mon-compte.html" class="bg-primary text-slate-50 px-6 py-3 rounded-xl font-medium hover:bg-secondary transition block mb-4">Accéder à mon compte</a>
+    <p class="text-sm text-slate-500">Besoin d'aide ? <a href="faq.html" class="text-accent">FAQ</a></p>
+  </div>
+  <script> document.addEventListener('DOMContentLoaded', () => initThemeToggle(document.querySelector('#theme-toggle') || 'create-one', 'theme-icon', 'theme-text')); </script>
+</body>
+</html>

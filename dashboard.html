@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Compte SmartFold</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#1D4ED8',
+            secondary: '#3B82F6',
+            accent: '#10B981'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+
+    .glass-card {
+      background: radial-gradient(circle at top, rgba(148, 163, 184, 0.18), rgba(15, 23, 42, 0.85));
+      border-radius: 1.25rem;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      transition: transform 0.18s ease-out, box-shadow 0.18s ease-out, border-color 0.18s ease-out;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.95);
+      border-color: rgba(248, 250, 252, 0.6);
+    }
+
+    .glass-pill {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(16, 185, 129, 0.16));
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glow-button::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.28), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.18s ease-out;
+    }
+
+    .glow-button:hover::after {
+      opacity: 1;
+    }
+
+    .badge-soft {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      padding: 0.18rem 0.6rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* modal backdrop */
+    .backdrop {
+      background: radial-gradient(circle at top, rgba(37, 99, 235, 0.35), rgba(15, 23, 42, 0.98));
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    /* simple pulse for alerts */
+    .pulse-soft {
+      animation: pulseSoft 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseSoft {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.03); }
+    }
+  </style>
+</head>
+
+<body class="h-full bg-slate-950 text-slate-50">
+  <!-- Background gradient + orbs -->
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-40 -left-32 w-80 h-80 bg-primary/30 rounded-full blur-3xl opacity-60"></div>
+    <div class="absolute -bottom-40 -right-32 w-96 h-96 bg-emerald-400/25 rounded-full blur-3xl opacity-60"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0.85),_rgba(2,6,23,0.98))]"></div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="glass-pill px-3 py-1.5 flex items-center space-x-2">
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-900/90 text-lg">
+              💳
+            </span>
+            <div class="flex flex-col">
+              <span class="text-xs text-slate-300 tracking-wide">SmartFold</span>
+              <span class="text-xs font-semibold text-slate-100">Dashboard Wallet</span>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center space-x-3">
+          <button id="theme-toggle"
+                  class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-700/80 text-xs text-slate-200 hover:bg-slate-800/80 transition">
+            <span>🎨</span>
+            <span>Thème</span>
+          </button>
+          <a href="index.html"
+             class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full border border-slate-700/80 text-xs text-slate-200 hover:bg-slate-800/80 transition">
+            Site vitrine
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-10">
+    <!-- SECTION LOGIN -->
+    <section id="auth-section" class="max-w-md mx-auto mt-10">
+      <div class="glass-card px-6 py-7 sm:px-8 sm:py-9">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <p class="badge-soft mb-2 text-slate-300">Espace utilisateur</p>
+            <h1 class="text-2xl sm:text-3xl font-semibold text-slate-50">
+              Connexion à SmartFold
+            </h1>
+            <p class="mt-1.5 text-sm text-slate-400">
+              Accédez à votre portefeuille connecté, suivez vos cartes et localisez votre SmartFold.
+            </p>
+          </div>
+        </div>
+
+        <form id="login-form" class="space-y-4 mt-2">
+          <div>
+            <label for="email" class="block text-xs font-medium text-slate-300 mb-1.5">
+              Adresse e-mail
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+              class="block w-full rounded-xl border border-slate-600/70 bg-slate-950/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 shadow-inner shadow-slate-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="vous@example.com"
+            >
+          </div>
+
+          <div>
+            <label for="password" class="block text-xs font-medium text-slate-300 mb-1.5">
+              Mot de passe
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              class="block w-full rounded-xl border border-slate-600/70 bg-slate-950/60 px-3 py-2.5 text-sm text-slate-50 placeholder:text-slate-500 shadow-inner shadow-slate-900 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+              placeholder="••••••••"
+            >
+          </div>
+
+          <div class="flex items-center justify-between text-xs text-slate-400 mt-2">
+            <p>Démo :</p>
+            <div class="text-right">
+              <p><span class="font-mono text-[0.70rem]">lm_bouzekri@esi.dz</span></p>
+              <p><span class="font-mono text-[0.70rem]">wallet123</span></p>
+            </div>
+          </div>
+
+          <p id="login-error" class="hidden text-xs text-rose-400 mt-1">
+            Identifiants incorrects. Essayez avec l'email et le mot de passe de démo.
+          </p>
+
+          <button
+            type="submit"
+            class="mt-4 w-full glow-button bg-primary hover:bg-secondary text-slate-50 text-sm font-medium py-2.75 rounded-xl shadow-lg shadow-blue-500/30 flex items-center justify-center gap-2 transition"
+          >
+            <span>Se connecter</span>
+            <span class="text-base">↗</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION DASHBOARD -->
+    <section id="dashboard-section" class="hidden mt-6 space-y-6">
+      <!-- Header user -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p class="badge-soft mb-2 text-slate-300 flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            Connecté
+          </p>
+          <h2 class="text-3xl sm:text-4xl font-semibold text-slate-50 flex items-center gap-2">
+            Bonjour, <span id="user-name">Mohamed</span> 👋
+          </h2>
+          <p class="mt-1.5 text-sm text-slate-400 max-w-xl">
+            Voici un aperçu en temps réel de votre portefeuille connecté SmartFold.
+          </p>
+        </div>
+        <div class="glass-pill px-3 py-2 flex items-center gap-3">
+          <div class="flex flex-col text-xs leading-tight">
+            <span class="text-slate-300">Connecté en tant que</span>
+            <span id="user-email" class="text-slate-50 font-medium truncate max-w-[180px] sm:max-w-xs">
+              lm_bouzekri@esi.dz
+            </span>
+          </div>
+          <button
+            id="logout-btn"
+            class="text-[0.7rem] uppercase tracking-wide px-3 py-1.5 rounded-full border border-slate-600/70 text-slate-200 hover:bg-slate-800/80 transition"
+          >
+            Déconnexion
+          </button>
+        </div>
+      </div>
+
+      <!-- GRID PRINCIPALE -->
+      <div class="mt-4 grid gap-6 lg:grid-cols-3">
+        <!-- Carte principale Wallet -->
+        <div class="lg:col-span-2 glass-card px-5 sm:px-7 py-6 sm:py-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-slate-900/90 text-xl">
+                  💼
+                </span>
+                <div class="flex items-center gap-2">
+                  <h3 class="text-xl sm:text-2xl font-semibold text-slate-50" id="wallet-name-display">
+                    Mohamed's Wallet
+                  </h3>
+                  <button id="edit-wallet-name"
+                          class="text-xs text-slate-300 hover:text-slate-100 border border-slate-600/70 rounded-full px-2 py-0.5 flex items-center gap-1">
+                    ✏️ <span>Renommer</span>
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-slate-400 mb-4">
+                Portefeuille connecté principal associé à votre compte.
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs text-slate-400 mb-1">Batterie</p>
+              <div class="inline-flex items-center gap-2">
+                <div class="relative w-20 h-3 rounded-full bg-slate-900/80 border border-slate-600/80 overflow-hidden">
+                  <div id="battery-fill" class="h-full bg-emerald-400" style="width: 78%;"></div>
+                </div>
+                <span id="battery-label" class="text-sm font-medium text-emerald-400">78%</span>
+              </div>
+              <p class="text-[0.7rem] text-slate-500 mt-1">
+                Autonomie estimée : <span id="battery-days">4 jours</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-5 grid sm:grid-cols-3 gap-4">
+            <div class="rounded-2xl bg-slate-950/40 border border-slate-700/80 px-4 py-3">
+              <p class="text-xs text-slate-400 mb-1">Statut</p>
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-medium text-emerald-400 flex items-center gap-2">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                  En ligne
+                </span>
+              </div>
+              <p class="text-[0.7rem] text-slate-500 mt-1">
+                Dernière activité : <span id="last-seen">Il y a 5 min</span>
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-slate-950/40 border border-slate-700/80 px-4 py-3">
+              <p class="text-xs text-slate-400 mb-1">Distance estimée</p>
+              <p id="distance-label" class="text-sm font-medium text-slate-50">
+                &lt; 20 m de votre téléphone
+              </p>
+              <p class="text-[0.7rem] text-slate-500 mt-1">
+                Basée sur la force du signal BLE.
+              </p>
+            </div>
+
+            <div class="rounded-2xl bg-slate-950/40 border border-slate-700/80 px-4 py-3">
+              <p class="text-xs text-slate-400 mb-1">Mode sécurité</p>
+              <p id="security-mode-label" class="text-sm font-medium text-amber-400">
+                Standard actif
+              </p>
+              <p class="text-[0.7rem] text-slate-500 mt-1">
+                Activez le mode perdu en cas de doute.
+              </p>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <button
+              id="locate-btn"
+              class="glow-button flex-1 bg-primary hover:bg-secondary text-slate-50 text-sm font-medium py-2.75 rounded-xl shadow-lg shadow-blue-500/35 flex items-center justify-center gap-2 transition"
+            >
+              📍 Localiser mon portefeuille
+            </button>
+            <button
+              id="ring-btn"
+              class="flex-1 bg-emerald-500/90 hover:bg-emerald-400 text-slate-950 text-sm font-medium py-2.75 rounded-xl shadow-lg shadow-emerald-500/35 flex items-center justify-center gap-2 transition"
+            >
+              🔊 Faire sonner
+            </button>
+            <button
+              id="lost-mode-btn"
+              class="flex-1 bg-slate-900/90 hover:bg-slate-800/90 text-amber-300 text-sm font-medium py-2.75 rounded-xl border border-amber-400/60 flex items-center justify-center gap-2 transition"
+            >
+              🛡️ Mode perdu
+            </button>
+          </div>
+          <p id="action-feedback" class="mt-2 text-[0.7rem] text-slate-400"></p>
+        </div>
+
+        <!-- Carte / Cartes présentes -->
+        <div class="glass-card px-5 sm:px-6 py-5 sm:py-6 flex flex-col h-full">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-semibold text-slate-50">
+              Cartes dans le portefeuille
+            </h3>
+            <span class="badge-soft text-[0.65rem]">
+              Capteur cartes
+            </span>
+          </div>
+          <p class="text-xs text-slate-400 mb-4">
+            Suivi du nombre de cartes détectées physiquement dans votre SmartFold.
+          </p>
+
+          <div class="flex items-end justify-between mb-3">
+            <div>
+              <p class="text-xs text-slate-400 mb-1">Cartes présentes</p>
+              <p class="text-xl font-semibold text-slate-50">
+                <span id="cards-present">4</span>/<span id="cards-total">5</span>
+              </p>
+            </div>
+            <div class="text-right">
+              <p id="cards-status-text" class="text-xs font-medium text-amber-300">
+                1 carte semble manquante
+              </p>
+            </div>
+          </div>
+
+          <div class="w-full h-2.5 rounded-full bg-slate-900/80 border border-slate-700/80 overflow-hidden mb-3">
+            <div id="cards-bar" class="h-full bg-emerald-400" style="width: 80%;"></div>
+          </div>
+
+          <ul id="cards-list" class="mt-2 space-y-2 text-xs text-slate-300">
+            <!-- rempli par JS -->
+          </ul>
+
+          <p class="mt-3 text-[0.7rem] text-slate-500">
+            Astuce : vous pouvez associer des noms à chaque carte (CB, Navigo, étudiante…) dans l'app mobile.
+          </p>
+        </div>
+      </div>
+
+      <!-- BLOC STAT / TIMELINE -->
+      <div class="grid gap-6 lg:grid-cols-3 mt-2">
+        <!-- Résumé rapide -->
+        <div class="glass-card px-5 sm:px-6 py-5">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-50">Résumé rapide</h3>
+            <span class="badge-soft text-[0.65rem]">Vue globale</span>
+          </div>
+          <dl class="space-y-3 text-xs text-slate-300">
+            <div class="flex items-center justify-between">
+              <dt class="flex items-center gap-2">
+                <span class="text-sm">🕒</span>
+                <span>Dernière vue</span>
+              </dt>
+              <dd id="summary-last-seen">Il y a 5 min, Paris</dd>
+            </div>
+            <div class="flex items-center justify-between">
+              <dt class="flex items-center gap-2">
+                <span class="text-sm">📍</span>
+                <span>Dernier lieu</span>
+              </dt>
+              <dd id="summary-location">Café Campus, 5ᵉ</dd>
+            </div>
+            <div class="flex items-center justify-between">
+              <dt class="flex items-center gap-2">
+                <span class="text-sm">🔔</span>
+                <span>Alerte éloignement</span>
+              </dt>
+              <dd id="summary-alert" class="text-emerald-300">Aucune récente</dd>
+            </div>
+            <div class="flex items-center justify-between">
+              <dt class="flex items-center gap-2">
+                <span class="text-sm">📦</span>
+                <span>Jours sans perte</span>
+              </dt>
+              <dd id="summary-days">30 jours consécutifs 🎉</dd>
+            </div>
+          </dl>
+        </div>
+
+        <!-- Timeline -->
+        <div class="glass-card px-5 sm:px-6 py-5 lg:col-span-2">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-sm font-semibold text-slate-50">Activité récente</h3>
+            <span class="badge-soft text-[0.65rem]">
+              Journal
+            </span>
+          </div>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+              <div>
+                <p>08:42 – Portefeuille ouvert (capteur d’ouverture)</p>
+                <p class="text-[0.7rem] text-slate-500">SmartFold détecté en intérieur (domicile).</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-amber-400"></span>
+              <div>
+                <p>08:40 – Carte “CB” retirée</p>
+                <p class="text-[0.7rem] text-slate-500">Carte absente depuis 5 minutes.</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-1.5 h-1.5 w-1.5 rounded-full bg-sky-400"></span>
+              <div>
+                <p>Hier – Localisation consultée</p>
+                <p class="text-[0.7rem] text-slate-500">SmartFold vu à proximité de l’université.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL LOCALISATION -->
+  <div id="map-modal" class="hidden fixed inset-0 z-40 flex items-center justify-center backdrop">
+    <div class="max-w-5xl w-full mx-4 glass-card p-4 sm:p-6 relative">
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <p class="badge-soft mb-1 text-slate-300">Localisation</p>
+          <h3 class="text-lg sm:text-xl font-semibold text-slate-50">
+            Position de votre SmartFold
+          </h3>
+        </div>
+        <button id="close-map-modal"
+                class="text-xs text-slate-300 hover:text-slate-50 border border-slate-600/70 rounded-full px-3 py-1">
+          ✕ Fermer
+        </button>
+      </div>
+      <p class="text-xs text-slate-400 mb-3">
+        Vue simulée de la carte. Dans un vrai produit, cette carte serait mise à jour en temps réel depuis vos données.
+      </p>
+      <div class="rounded-2xl overflow-hidden border border-slate-700/80 bg-slate-900">
+        <iframe
+          src="localisation.html"
+          title="Localisation SmartFold"
+          class="w-full h-[420px] border-0"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUDIO pour le "Faire sonner" -->
+  <audio id="beep-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_f507a7b1a1.mp3"></audio>
+
+  <script>
+    const DEMO_EMAIL = "lm_bouzekri@esi.dz";
+    const DEMO_PASSWORD = "wallet123";
+
+    const loginForm = document.getElementById("login-form");
+    const loginError = document.getElementById("login-error");
+    const authSection = document.getElementById("auth-section");
+    const dashboardSection = document.getElementById("dashboard-section");
+
+    const userNameSpan = document.getElementById("user-name");
+    const userEmailSpan = document.getElementById("user-email");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    const walletNameDisplay = document.getElementById("wallet-name-display");
+    const editWalletNameBtn = document.getElementById("edit-wallet-name");
+
+    const cardsPresentSpan = document.getElementById("cards-present");
+    const cardsTotalSpan = document.getElementById("cards-total");
+    const cardsBar = document.getElementById("cards-bar");
+    const cardsList = document.getElementById("cards-list");
+    const cardsStatusText = document.getElementById("cards-status-text");
+
+    const locateBtn = document.getElementById("locate-btn");
+    const ringBtn = document.getElementById("ring-btn");
+    const lostModeBtn = document.getElementById("lost-mode-btn");
+    const actionFeedback = document.getElementById("action-feedback");
+
+    const mapModal = document.getElementById("map-modal");
+    const closeMapModalBtn = document.getElementById("close-map-modal");
+    const themeToggleBtn = document.getElementById("theme-toggle");
+
+    const beepSound = document.getElementById("beep-sound");
+
+    // Démo: petit état "capteur cartes"
+    const cardsTotal = 5;
+    const cardsPresent = 4;
+    const cardsNames = ["CB", "Navigo", "Étudiante", "ID Nationale", "Carte de fidélité"];
+
+    function populateCards() {
+      cardsPresentSpan.textContent = cardsPresent;
+      cardsTotalSpan.textContent = cardsTotal;
+
+      const ratio = (cardsPresent / cardsTotal) * 100;
+      cardsBar.style.width = ratio + "%";
+
+      cardsList.innerHTML = "";
+      for (let i = 0; i < cardsTotal; i++) {
+        const li = document.createElement("li");
+        const present = i < cardsPresent;
+        li.className = "flex items-center justify-between";
+        li.innerHTML = `
+          <span>${cardsNames[i]}</span>
+          <span class="${present ? 'text-emerald-400' : 'text-amber-300'}">
+            ${present ? "Présente ✓" : "Manquante ⚠"}
+          </span>
+        `;
+        cardsList.appendChild(li);
+      }
+
+      if (cardsPresent === cardsTotal) {
+        cardsStatusText.textContent = "Toutes les cartes sont présentes ✅";
+        cardsStatusText.classList.remove("text-amber-300");
+        cardsStatusText.classList.add("text-emerald-300");
+      } else {
+        const missing = cardsTotal - cardsPresent;
+        cardsStatusText.textContent =
+          missing === 1 ? "1 carte semble manquante" : `${missing} cartes semblent manquantes`;
+        cardsStatusText.classList.remove("text-emerald-300");
+        cardsStatusText.classList.add("text-amber-300");
+      }
+    }
+
+    function showDashboard(email) {
+      authSection.classList.add("hidden");
+      dashboardSection.classList.remove("hidden");
+
+      userEmailSpan.textContent = email;
+      userNameSpan.textContent = "Mohamed"; // démo
+
+      populateCards();
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (email === DEMO_EMAIL && password === DEMO_PASSWORD) {
+        loginError.classList.add("hidden");
+        showDashboard(email);
+      } else {
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      dashboardSection.classList.add("hidden");
+      authSection.classList.remove("hidden");
+      document.getElementById("password").value = "";
+      actionFeedback.textContent = "";
+    });
+
+    // Renommer le wallet
+    editWalletNameBtn.addEventListener("click", () => {
+      const current = walletNameDisplay.textContent.trim();
+      const nouveau = prompt("Nouveau nom pour votre portefeuille :", current);
+      if (nouveau && nouveau.trim().length > 0) {
+        walletNameDisplay.textContent = nouveau.trim();
+      }
+    });
+
+    // Localisation (ouvre la modale avec l'iframe)
+    locateBtn.addEventListener("click", () => {
+      mapModal.classList.remove("hidden");
+      actionFeedback.textContent = "Ouverture de la carte de localisation…";
+    });
+
+    closeMapModalBtn.addEventListener("click", () => {
+      mapModal.classList.add("hidden");
+    });
+
+    // Faire sonner
+    ringBtn.addEventListener("click", () => {
+      beepSound.currentTime = 0;
+      beepSound.play();
+      actionFeedback.textContent = "Commande envoyée : votre SmartFold émet un son.";
+    });
+
+    // Mode perdu (juste une simulation visuelle)
+    let lostModeActive = false;
+    lostModeBtn.addEventListener("click", () => {
+      lostModeActive = !lostModeActive;
+      if (lostModeActive) {
+        lostModeBtn.classList.add("pulse-soft");
+        lostModeBtn.textContent = "🛡️ Mode perdu ACTIVÉ";
+        actionFeedback.textContent = "Mode perdu activé : alertes renforcées et suivi prioritaire.";
+      } else {
+        lostModeBtn.classList.remove("pulse-soft");
+        lostModeBtn.textContent = "🛡️ Mode perdu";
+        actionFeedback.textContent = "Mode perdu désactivé.";
+      }
+    });
+
+    // Theme toggle (très simple, change juste une classe sur le html)
+    themeToggleBtn?.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+    });
+  </script>
+</body>
+</html>

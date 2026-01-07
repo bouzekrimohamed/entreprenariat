@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ - SmartFold</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="script.js">
+  <script>
+    tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#1D4ED8', accent: '#10B981' } } } };
+  </script>
+  <style> body { font-family: 'Inter', sans-serif; background: linear-gradient(to bottom, #0f172a, #020617); color: #f1f5f9; } .glass-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 1rem; backdrop-filter: blur(10px); } details[open] summary { font-weight: bold; } </style>
+</head>
+<body class="min-h-screen py-16">
+  <nav class="glass-card fixed w-full z-10 p-4"><a href="index.html" class="text-primary">← Retour</a></nav>
+  <main class="max-w-2xl mx-auto px-4">
+    <h1 class="text-3xl font-bold text-slate-50 mb-8 text-center">FAQ SmartFold</h1>
+    <div class="space-y-4">
+      <details class="glass-card p-4 cursor-pointer">
+        <summary class="text-slate-300 hover:text-slate-50">Qu'est-ce que le mode perdu ?</summary>
+        <p class="mt-2 text-slate-400">Active des alertes renforcées et un suivi GPS prioritaire.</p>
+      </details>
+      <details class="glass-card p-4 cursor-pointer">
+        <summary class="text-slate-300 hover:text-slate-50">Supporte-t-il les cartes NFC ?</summary>
+        <p class="mt-2 text-slate-400">Oui, lecture sécurisée pour Navigo, CB, etc.</p>
+      </details>
+      <!-- Ajoute plus de FAQs -->
+    </div>
+  </main>
+  <script> document.addEventListener('DOMContentLoaded', () => { initThemeToggle(); // Accordéon auto via <details> }); </script>
+</body>
+</html>
