@@ -93,16 +93,50 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="bg-gradient-to-r from-primary to-secondary text-white pt-20 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">W WALLET : Le Portefeuille Connecté Premium pour une Vie Sans Soucis</h1>
-            <p class="mt-3 max-w-md mx-auto text-base sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">Achetez votre portefeuille physique connecté à 59,99  € et profitez de l'application mobile gratuite pour le localiser .</p>
-            <div class="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
-                <a href="localisation.html" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10">Voir la Démo Interactive</a>
-                <a href="#buy" class="mt-3 w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-accent hover:bg-green-600 sm:mt-0 sm:ml-3 md:py-4 md:text-lg md:px-10">Commander – 59,99  €</a>
-            </div>
-        </div>
-    </header>
+<header class="bg-gradient-to-r from-primary to-secondary text-white pt-20 pb-16">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- IMAGE (mobile) : en haut centré -->
+    <div class="md:hidden flex justify-center mb-6">
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-2xl">
+        <img src="PORTF.PNG" alt="W WALLET" class="w-64 drop-shadow-2xl" />
+      </div>
+    </div>
+
+    <!-- IMAGE (desktop) : en haut à droite, DANS le conteneur -->
+    <div class="hidden md:block absolute top-6 right-6">
+      <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 shadow-2xl">
+        <img src="PORTF.PNG"
+             alt="W WALLET"
+             class="w-72 lg:w-80 drop-shadow-2xl rotate-[-4deg] hover:rotate-0 transition duration-300 ease-out select-none" />
+      </div>
+    </div>
+
+    <!-- TEXTE -->
+    <div class="max-w-3xl text-center md:text-left">
+      <h1 class="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+        W WALLET : Le Portefeuille Connecté Premium pour une Vie Sans Soucis
+      </h1>
+
+      <p class="mt-4 text-base sm:text-lg md:text-xl text-white/90">
+        Achetez votre portefeuille physique connecté à 59,99 € et profitez de l'application mobile gratuite pour le localiser.
+      </p>
+
+      <div class="mt-8 max-w-md mx-auto md:mx-0 sm:flex sm:justify-center md:justify-start gap-3">
+        <a href="localisation.html"
+           class="w-full sm:w-auto flex items-center justify-center px-8 py-3 md:py-4 md:px-10 rounded-md text-primary bg-white hover:bg-gray-100 font-medium">
+          Voir la Démo Interactive
+        </a>
+        <a href="#buy"
+           class="w-full sm:w-auto flex items-center justify-center px-8 py-3 md:py-4 md:px-10 rounded-md text-white bg-accent hover:bg-green-600 font-medium">
+          Commander – 59,99 €
+        </a>
+      </div>
+    </div>
+
+  </div>
+</header>
+
 
     <!-- Features Section -->
     <section id="features" class="py-16 bg-white">
